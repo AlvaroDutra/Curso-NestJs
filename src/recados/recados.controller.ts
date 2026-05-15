@@ -7,18 +7,20 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { RecadosService } from './recados.service';
 import { CreateRecadoDTO } from './dtos/create-recado.dto';
 import { UpdateRecadoDTO } from './dtos/update-recado.dto';
+import { PaginationDTO } from '../common/dto/pagination.dto';
 
 @Controller('recados')
 export class RecadosController {
   constructor(private readonly recadosService: RecadosService) {}
 
   @Get()
-  findAll() {
-    return this.recadosService.findAll();
+  findAll(@Query() pagination: PaginationDTO) {
+    return this.recadosService.findAll(pagination);
   }
 
   @Get(':id')

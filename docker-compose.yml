@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    ports:
+      - 5432:5432
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql
+    env_file:
+      - .env
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_ui
+    restart: always
+    env_file:
+      - .env
+    environment:
+      PGADMIN_LISTEN_ADDRESS: 0.0.0.0
+    ports:
+      - 127.0.0.1:8080:80
+    depends_on:
+      - db
+  
+volumes:
+  pgdata:
