@@ -15,6 +15,11 @@ import { UpdateRecadoDTO } from './dtos/update-recado.dto';
 import { PaginationDTO } from '../common/dtos/pagination.dto';
 import { RecadosUtils } from './recados.utils';
 import { SERVER_NAME } from '../common/constants/server-name.constant';
+import {
+  ONLY_LOWER_LETTERS_REGEX,
+  REMOVE_SPACES_REGEX,
+} from './recados.constants';
+import type { RegexProtocol } from '../common/regex/regex.protocol';
 
 @Controller('recados')
 export class RecadosController {
@@ -23,6 +28,10 @@ export class RecadosController {
     private readonly recadosUtils: RecadosUtils,
     @Inject(SERVER_NAME)
     private readonly serverName: string,
+    @Inject(ONLY_LOWER_LETTERS_REGEX)
+    private readonly onlyLowerLettersRegex: RegexProtocol,
+    @Inject(REMOVE_SPACES_REGEX)
+    private readonly removeSpacesRegex: RegexProtocol,
   ) {}
 
   @Get()
@@ -33,6 +42,7 @@ export class RecadosController {
       ),
     );
     console.log(this.serverName);
+    console.log(this.onlyLowerLettersRegex.execute(this.serverName));
     return this.recadosService.findAll(pagination);
   }
 
