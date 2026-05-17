@@ -5,6 +5,7 @@ import { RecadosService } from './recados.service';
 import { RecadosEntity } from './entities/recados.entity';
 import { UsuariosModule } from '../usuarios/usuarios.module';
 import { RecadosUtils, RecadosUtilsMock } from './recados.utils';
+import { SERVER_NAME } from '../common/constants/server-name.constant';
 
 @Module({
   imports: [
@@ -18,7 +19,11 @@ import { RecadosUtils, RecadosUtilsMock } from './recados.utils';
       provide: RecadosUtils, //Token
       useValue: new RecadosUtilsMock(), //Valor usado
     },
+    {
+      provide: SERVER_NAME,
+      useValue: 'My name is NestJS.',
+    },
   ],
-  exports: [RecadosUtils],
+  exports: [RecadosUtils, SERVER_NAME],
 })
 export class RecadosModule {}

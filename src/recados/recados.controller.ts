@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Patch,
   Post,
@@ -13,12 +14,15 @@ import { CreateRecadoDTO } from './dtos/create-recado.dto';
 import { UpdateRecadoDTO } from './dtos/update-recado.dto';
 import { PaginationDTO } from '../common/dtos/pagination.dto';
 import { RecadosUtils } from './recados.utils';
+import { SERVER_NAME } from '../common/constants/server-name.constant';
 
 @Controller('recados')
 export class RecadosController {
   constructor(
     private readonly recadosService: RecadosService,
     private readonly recadosUtils: RecadosUtils,
+    @Inject(SERVER_NAME)
+    private readonly serverName: string,
   ) {}
 
   @Get()
@@ -28,6 +32,7 @@ export class RecadosController {
         'testando recadosutils no recados controller',
       ),
     );
+    console.log(this.serverName);
     return this.recadosService.findAll(pagination);
   }
 
