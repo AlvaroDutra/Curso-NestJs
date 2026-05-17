@@ -11,9 +11,11 @@ import {
   REMOVE_SPACES_REGEX,
 } from './recados.constants';
 import { ModuloDinamicoModule } from '../modulo-dinamico/modulo-dinamico.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule,
     TypeOrmModule.forFeature([RecadosEntity]),
     forwardRef(() => UsuariosModule),
     ModuloDinamicoModule.register({

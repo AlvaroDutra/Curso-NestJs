@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
 import { Repository } from 'typeorm';
 import { RecadosEntity } from './entities/recados.entity';
 import { UpdateRecadoDTO } from './dtos/update-recado.dto';
@@ -9,14 +10,15 @@ import { PaginationDTO } from '../common/dtos/pagination.dto';
 
 @Injectable({ scope: Scope.DEFAULT })
 export class RecadosService {
-  private count: number = 0;
   constructor(
     @InjectRepository(RecadosEntity)
     private readonly recadosRepository: Repository<RecadosEntity>,
     private readonly usuariosService: UsuariosService,
+    private readonly configService: ConfigService,
   ) {
-    this.count++;
-    console.log(`RecadosService foi instanciado ${this.count} vezes`);
+    const databaseUsername =
+      this.configService.get<string>('DATABASE_USERNAME');
+    console.log({ databaseUsername });
   }
 
   throwNotFoundError(id: number) {
