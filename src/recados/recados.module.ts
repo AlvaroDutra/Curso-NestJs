@@ -4,7 +4,7 @@ import { RecadosController } from './recados.controller';
 import { RecadosService } from './recados.service';
 import { RecadosEntity } from './entities/recados.entity';
 import { UsuariosModule } from '../usuarios/usuarios.module';
-import { RecadosUtils } from './recados.utils';
+import { RecadosUtils, RecadosUtilsMock } from './recados.utils';
 
 @Module({
   imports: [
@@ -12,7 +12,13 @@ import { RecadosUtils } from './recados.utils';
     forwardRef(() => UsuariosModule),
   ],
   controllers: [RecadosController],
-  providers: [RecadosService, RecadosUtils],
+  providers: [
+    RecadosService,
+    {
+      provide: RecadosUtils, //Token
+      useValue: new RecadosUtilsMock(), //Valor usado
+    },
+  ],
   exports: [RecadosUtils],
 })
 export class RecadosModule {}
