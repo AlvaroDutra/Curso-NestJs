@@ -12,10 +12,11 @@ import {
 } from './recados.constants';
 import { ModuloDinamicoModule } from '../modulo-dinamico/modulo-dinamico.module';
 import { ConfigModule } from '@nestjs/config';
+import recadosConfig from './recados.config';
 
 @Module({
   imports: [
-    ConfigModule,
+    ConfigModule.forFeature(recadosConfig),
     TypeOrmModule.forFeature([RecadosEntity]),
     forwardRef(() => UsuariosModule),
     ModuloDinamicoModule.register({
