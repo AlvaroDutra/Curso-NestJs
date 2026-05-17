@@ -12,15 +12,22 @@ import { RecadosService } from './recados.service';
 import { CreateRecadoDTO } from './dtos/create-recado.dto';
 import { UpdateRecadoDTO } from './dtos/update-recado.dto';
 import { PaginationDTO } from '../common/dtos/pagination.dto';
-import { ReqDataParam } from '../common/params/req-data-param.decorator';
+import { RecadosUtils } from './recados.utils';
 
 @Controller('recados')
 export class RecadosController {
-  constructor(private readonly recadosService: RecadosService) {}
+  constructor(
+    private readonly recadosService: RecadosService,
+    private readonly recadosUtils: RecadosUtils,
+  ) {}
 
   @Get()
-  findAll(@Query() pagination: PaginationDTO, @ReqDataParam('headers') data) {
-    console.log(data);
+  findAll(@Query() pagination: PaginationDTO) {
+    console.log(
+      this.recadosUtils.invertString(
+        'testando recadosutils no recados controller',
+      ),
+    );
     return this.recadosService.findAll(pagination);
   }
 

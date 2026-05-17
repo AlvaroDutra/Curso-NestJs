@@ -10,10 +10,14 @@ import {
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { RecadosUtils } from '../recados/recados.utils';
 
 @Controller('usuarios')
 export class UsuariosController {
-  constructor(private readonly usuariosService: UsuariosService) {}
+  constructor(
+    private readonly usuariosService: UsuariosService,
+    private readonly recadosUtils: RecadosUtils,
+  ) {}
 
   @Post()
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
@@ -22,6 +26,11 @@ export class UsuariosController {
 
   @Get()
   findAll() {
+    console.log(
+      this.recadosUtils.invertString(
+        'teste recadosutils no controller de usuarios.',
+      ),
+    );
     return this.usuariosService.findAll();
   }
 
