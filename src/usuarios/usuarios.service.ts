@@ -3,6 +3,7 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  Scope,
 } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
@@ -10,12 +11,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsuariosEntity } from './entities/usuario.entity';
 import { Repository } from 'typeorm';
 
-@Injectable()
+@Injectable({ scope: Scope.DEFAULT })
 export class UsuariosService {
+  private count: number = 0;
   constructor(
     @InjectRepository(UsuariosEntity)
     private readonly usuariosRepository: Repository<UsuariosEntity>,
-  ) {}
+  ) {
+    this.count++;
+    console.log(`UsuariosService foi instanciado ${this.count} vezes.`);
+  }
 
   async create(createUsuarioDto: CreateUsuarioDto) {
     try {
