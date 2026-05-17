@@ -4,10 +4,8 @@ import { RecadosController } from './recados.controller';
 import { RecadosService } from './recados.service';
 import { RecadosEntity } from './entities/recados.entity';
 import { UsuariosModule } from '../usuarios/usuarios.module';
-import { RecadosUtils, RecadosUtilsMock } from './recados.utils';
-import { SERVER_NAME } from '../common/constants/server-name.constant';
-import { RemoveSpacesRegex } from '../common/regex/remove-spaces.regex';
-import { OnlyLowerCaseLetters } from '../common/regex/only-lowercase-letters.regex';
+import { RecadosUtils } from './recados.utils';
+import { RegexFactory } from '../common/regex/regex.factory';
 import {
   ONLY_LOWER_LETTERS_REGEX,
   REMOVE_SPACES_REGEX,
@@ -21,23 +19,24 @@ import {
   controllers: [RecadosController],
   providers: [
     RecadosService,
+    RecadosUtils,
+    RegexFactory,
     {
-      provide: RecadosUtils, //Token
-      useValue: new RecadosUtilsMock(), //Valor usado
+      provide: REMOVE_SPACES_REGEX, // token
+      useFactory: (regexFactory: RegexFactory) => {
+        return regexFactory.create('RemoveSpacesRegex');
+      }, // factory
+      inject: [RegexFactory], // Injetando na factory em ordem
     },
     {
-      provide: SERVER_NAME,
-      useValue: 'My name is NestJS.',
-    },
-    {
-      provide: ONLY_LOWER_LETTERS_REGEX,
-      useClass: OnlyLowerCaseLetters,
-    },
-    {
-      provide: REMOVE_SPACES_REGEX,
-      useClass: RemoveSpacesRegex,
+      provide: ONLY_LOWER_LETTERS_REGEX, // token
+      useFactory: async (regexFactory: RegexFactory) => {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        return regexFactory.create('OnlyLowercaseLettersRegex');
+      }, // factory assincrona
+      inject: [RegexFactory], // Injetando na factory em ordem
     },
   ],
-  exports: [RecadosUtils, SERVER_NAME],
+  exports: [RecadosUtils],
 })
 export class RecadosModule {}

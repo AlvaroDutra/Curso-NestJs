@@ -13,36 +13,20 @@ import { RecadosService } from './recados.service';
 import { CreateRecadoDTO } from './dtos/create-recado.dto';
 import { UpdateRecadoDTO } from './dtos/update-recado.dto';
 import { PaginationDTO } from '../common/dtos/pagination.dto';
-import { RecadosUtils } from './recados.utils';
-import { SERVER_NAME } from '../common/constants/server-name.constant';
-import {
-  ONLY_LOWER_LETTERS_REGEX,
-  REMOVE_SPACES_REGEX,
-} from './recados.constants';
-import type { RegexProtocol } from '../common/regex/regex.protocol';
+import { REMOVE_SPACES_REGEX } from './recados.constants';
+import { RemoveSpacesRegex } from '../common/regex/remove-spaces.regex';
 
 @Controller('recados')
 export class RecadosController {
   constructor(
     private readonly recadosService: RecadosService,
-    private readonly recadosUtils: RecadosUtils,
-    @Inject(SERVER_NAME)
-    private readonly serverName: string,
-    @Inject(ONLY_LOWER_LETTERS_REGEX)
-    private readonly onlyLowerLettersRegex: RegexProtocol,
     @Inject(REMOVE_SPACES_REGEX)
-    private readonly removeSpacesRegex: RegexProtocol,
+    private readonly removeSpacesRegex: RemoveSpacesRegex,
   ) {}
 
   @Get()
   findAll(@Query() pagination: PaginationDTO) {
-    console.log(
-      this.recadosUtils.invertString(
-        'testando recadosutils no recados controller',
-      ),
-    );
-    console.log(this.serverName);
-    console.log(this.onlyLowerLettersRegex.execute(this.serverName));
+    console.log(this.removeSpacesRegex.execute('REMOVE OS ESPAÇOS'));
     return this.recadosService.findAll(pagination);
   }
 
