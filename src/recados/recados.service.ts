@@ -5,7 +5,7 @@ import { RecadosEntity } from './entities/recados.entity';
 import { UpdateRecadoDTO } from './dtos/update-recado.dto';
 import { CreateRecadoDTO } from './dtos/create-recado.dto';
 import { UsuariosService } from '../usuarios/usuarios.service';
-import { PaginationDTO } from '../common/dto/pagination.dto';
+import { PaginationDTO } from '../common/dtos/pagination.dto';
 
 @Injectable()
 export class RecadosService {

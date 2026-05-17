@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -12,19 +11,21 @@ import {
 import { RecadosService } from './recados.service';
 import { CreateRecadoDTO } from './dtos/create-recado.dto';
 import { UpdateRecadoDTO } from './dtos/update-recado.dto';
-import { PaginationDTO } from '../common/dto/pagination.dto';
+import { PaginationDTO } from '../common/dtos/pagination.dto';
+import { ReqDataParam } from '../common/params/req-data-param.decorator';
 
 @Controller('recados')
 export class RecadosController {
   constructor(private readonly recadosService: RecadosService) {}
 
   @Get()
-  findAll(@Query() pagination: PaginationDTO) {
+  findAll(@Query() pagination: PaginationDTO, @ReqDataParam('headers') data) {
+    console.log(data);
     return this.recadosService.findAll(pagination);
   }
 
   @Get(':id')
-  findById(@Param('id', ParseIntPipe) id: number) {
+  findById(@Param('id') id: number) {
     return this.recadosService.findById(id);
   }
 
@@ -34,15 +35,12 @@ export class RecadosController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateRecadoDto: UpdateRecadoDTO,
-  ) {
+  update(@Param('id') id: number, @Body() updateRecadoDto: UpdateRecadoDTO) {
     return this.recadosService.update(id, updateRecadoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: number) {
     return this.recadosService.remove(id);
   }
 }
