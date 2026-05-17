@@ -10,11 +10,16 @@ import {
   ONLY_LOWER_LETTERS_REGEX,
   REMOVE_SPACES_REGEX,
 } from './recados.constants';
+import { ModuloDinamicoModule } from '../modulo-dinamico/modulo-dinamico.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([RecadosEntity]),
     forwardRef(() => UsuariosModule),
+    ModuloDinamicoModule.register({
+      apiKey: 'API_KEY',
+      apiUrl: 'http://api.com',
+    }),
   ],
   controllers: [RecadosController],
   providers: [

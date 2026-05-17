@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Inject,
   Param,
   Patch,
   Post,
@@ -13,20 +12,13 @@ import { RecadosService } from './recados.service';
 import { CreateRecadoDTO } from './dtos/create-recado.dto';
 import { UpdateRecadoDTO } from './dtos/update-recado.dto';
 import { PaginationDTO } from '../common/dtos/pagination.dto';
-import { REMOVE_SPACES_REGEX } from './recados.constants';
-import { RemoveSpacesRegex } from '../common/regex/remove-spaces.regex';
 
 @Controller('recados')
 export class RecadosController {
-  constructor(
-    private readonly recadosService: RecadosService,
-    @Inject(REMOVE_SPACES_REGEX)
-    private readonly removeSpacesRegex: RemoveSpacesRegex,
-  ) {}
+  constructor(private readonly recadosService: RecadosService) {}
 
   @Get()
   findAll(@Query() pagination: PaginationDTO) {
-    console.log(this.removeSpacesRegex.execute('REMOVE OS ESPAÇOS'));
     return this.recadosService.findAll(pagination);
   }
 
